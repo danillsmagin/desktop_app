@@ -3,25 +3,29 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QIcon, QPen, QPainter
 import pyqtgraph as pg
 from ecg_gui import Ui_MainWindow
+import neurokit2 as nk
 import db_patient  # in future will be database
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-import matplotlib.pyplot as plt
-import numpy as np
 
 
 class MyWindow(QtWidgets.QMainWindow):
+
     def __init__(self):
         super().__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.init_ui()
-
+        self.generating_ecg = nk.ecg_simulate(duration=7, sampling_rate=2300)
         self.graphWidget = pg.PlotWidget()
-        hour = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-        temperature = [30, 32, 34, 32, 33, 31, 29, 32, 36, 46]
+        self.init_graph()
 
-        pen = pg.mkPen(color=(255, 0, 0))
-        self.graphWidget = self.ui.graphicsView.plot(hour, temperature, pen=pen)
+    def init_ui(self):
+        self.setWindowTitle('Калькулятор пульса по ЭКГ')
+        self.setWindowIcon(QIcon('static\icon_pulse.png'))
+
+        self.ui.btn_calc_pulse.clicked.connect(self.ecg_pulse)
+
+    def init_graph(self):
+        self.graphWidget = nk.signal_plot(self.generating_ecg, sampling_rate=2300)
 
         self.ui.graphicsView.setBackground('white')
         self.ui.graphicsView.setTitle('ECG graph(no)', color='black', size='19pt')
@@ -29,23 +33,13 @@ class MyWindow(QtWidgets.QMainWindow):
                  'font-size': '16pt'}
         self.ui.graphicsView.setLabel('left', 'влэл', **style)
         self.ui.graphicsView.setLabel('bottom', 'sus', **style)
+        pen = pg.mkPen(color=(255, 0, 0))
+        self.graphWidget = self.ui.graphicsView.plot(self.generating_ecg, pen=pen)
 
-    def init_ui(self):
-        self.setWindowTitle('Калькулятор пульса по ЭКГ')
-        self.setWindowIcon(QIcon('static\icon_pulse.png'))
-
-        self.ui.dist_between_teeth.setPlaceholderText('ДА ДАВАЙ БЛЯТЬ')
-        self.ui.ecg_removal_rate.setPlaceholderText('влэд')
-
-        self.ui.btn_calc_pulse.clicked.connect(self.pulse_calculation)
-
-    def pulse_calculation(self):
-        dist_between_teeth = int(self.ui.dist_between_teeth.text())
-        ecg_removal_rate = int(self.ui.ecg_removal_rate.text())
-
-        pulse_result = 60 / (dist_between_teeth - ecg_removal_rate)
-
-        self.ui.pulse.setText(str(round(pulse_result, 2)))
+    def ecg_pulse(self):
+        processed_ecg = nk.ecg_process(self.generating_ecg, sampling_rate=2300)
+        pulse = processed_ecg[0]["ECG_Rate"][1]
+        self.ui.pulse.setText(str(pulse))
 
 
 if __name__ == '__main__':
