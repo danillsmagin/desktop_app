@@ -18,7 +18,8 @@ class Ui_MainWindow(object):
         MainWindow.resize(1048, 639)
         MainWindow.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
         MainWindow.setStyleSheet(
-            "background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(124, 27, 214, 255), stop:0.505682 rgba(5, 113, 244, 255), stop:0.926136 rgba(55, 185, 239, 255));")
+            "background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(124, 27, 214, 255), "
+            "stop:0.505682 rgba(5, 113, 244, 255), stop:0.926136 rgba(55, 185, 239, 255));")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setEnabled(True)
         self.centralwidget.setObjectName("centralwidget")
@@ -107,10 +108,12 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label.setText(_translate("MainWindow",
-                                      "<html><head/><body><p><span style=\" font-size:24pt;\">Калькулятор пульса по результатам ЭКГ</span></p></body></html>"))
+                                      "<html><head/><body><p><span style=\" font-size:24pt;\">Калькулятор пульса по "
+                                      "результатам ЭКГ</span></p></body></html>"))
         self.btn_calc_pulse.setText(_translate("MainWindow", "Рассчитать пульс"))
         self.label_4.setText(_translate("MainWindow",
-                                        "<html><head/><body><p><span style=\" font-size:18pt;\">Ваш пульс</span></p></body></html>"))
+                                        "<html><head/><body><p><span style=\" font-size:18pt;\">Ваш "
+                                        "пульс</span></p></body></html>"))
 
 
 from pyqtgraph import PlotWidget
