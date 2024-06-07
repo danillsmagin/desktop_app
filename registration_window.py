@@ -21,12 +21,7 @@ class RegistrationWindow(QtWidgets.QMainWindow):
 
     def check_input_values(self):
         if not self.ui.name_user.text() or not self.ui.second_name_user.text() or not self.ui.age_user.text():
-            QtWidgets.QMessageBox.warning(self, 'ПОЛЯ ПУСТЫЕ ЕБЛАН', 'ЗАПОЛНИ ДАУН')
-        # TODO: попробовать сделать всплывающее окно которое уведомляет нас
-
-    def update_button_enabled(self):
-        pass
-        # TODO: нужно разобраться как делать кнопку неактивной если поля ввода пустые (ПОХУЙ)
+            QtWidgets.QMessageBox.warning(self, 'Внимание!', 'Не заполнены поля')
 
     def register(self):
         self.ui.name_user.textChanged.connect(self.update_button_enabled)
@@ -45,5 +40,5 @@ class RegistrationWindow(QtWidgets.QMainWindow):
             self.ui.next_window.clicked.connect(self.check_input_values)
         else:
             self.hide()
-            self.main_window = MainWindow()
+            self.main_window = MainWindow(self.ui.name_user, self.ui.second_name_user, self.ui.age_user)
             self.main_window.show()
