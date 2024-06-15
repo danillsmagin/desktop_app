@@ -24,12 +24,13 @@ def insert_user(db, username, user_second_name, user_age):
     db.commit()
 
 
-def search_user_for_output_screen(db, user_name, user_second_name, user_age, info_from_db):
+def search_user_for_output_screen(db, user_name, user_second_name, user_age):
     cursor = db.cursor()
-    cursor.execute('SELECT name, surname FROM patient WHERE name = ? and second_name = ? and age = ?',
+    cursor.execute('SELECT name, second_name FROM patient WHERE name = ? and second_name = ? and age = ?',
                    (user_name, user_second_name, user_age))
 
     info_from_db = cursor.fetchone()
+    return info_from_db
 
 
 def close_connection(db):

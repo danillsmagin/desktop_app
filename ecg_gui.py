@@ -93,8 +93,8 @@ class Ui_MainWindow(object):
         self.label.setObjectName("label")
         self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
         self.info_from_database = QtWidgets.QTextEdit(self.widget)
-        self.info_from_database.setStyleSheet("font: 12pt \"Montserrat\";\n"
-                                    "background: transparent;")
+        self.info_from_database.setStyleSheet("font: 19pt \"Montserrat\";\n"
+                                              "background: transparent;")
         self.info_from_database.setObjectName("textEdit")
         self.gridLayout.addWidget(self.info_from_database, 0, 1, 1, 1)
         self.btn_calc_pulse.raise_()
